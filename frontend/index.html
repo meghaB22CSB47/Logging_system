@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptographic Log Security System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Cryptographic Log Security System</h1>
+            <p>Blockchain-Based Forensic Logging with Forward-Secure Key Rotation</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Blocks</h3>
+                <div id="totalBlocks" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Chain Status</h3>
+                <div id="chainStatus" class="stat-value">✅ VALID</div>
+            </div>
+            <div class="stat-card">
+                <h3>Current Epoch</h3>
+                <div id="currentEpoch" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Authority Nodes</h3>
+                <div id="authorityNodes" class="stat-value">0</div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Add Log Entry</h2>
+            <form id="logForm">
+                <input type="text" id="eventType" placeholder="Event Type" required>
+                <select id="severity" required>
+                    <option value="">Select Severity</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                </select>
+                <input type="text" id="source" placeholder="Source" required>
+                <textarea id="description" placeholder="Description"></textarea>
+                <button type="submit">Submit Log</button>
+            </form>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Log - Cryptographic Log Security</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>🔐 Cryptographic Log Security System</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="verify.html" class="active">Verify</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="verify-section">
+            <h2>🔍 Verify Log Integrity</h2>
+            <form id="verifyForm">
+                <label>Block Index:</label>
+                <input type="number" id="blockIndex" min="0" required>
+                <button type="submit">Verify Block</button>
+            </form>
+
+            <div id="verifyResult" class="verify-result"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+
+        document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const blockIndex = document.getElementById('blockIndex').value;
+            const resultDiv = document.getElementById('verifyResult');
+            
+            try {
+                const response = await fetch(`${API_BASE}/verify`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({block_index: parseInt(blockIndex)})
+                });
+                
+                const result = await response.json();
+                
+                let html = '<div class="result-box">';
+                html += `<h3>Verification Results for Block #${blockIndex}</h3>`;
+                html += `<p><strong>Block Valid:</strong> ${result.block_valid ? '✅' : '❌'}</p>`;
+                html += `<p><strong>Signature Valid:</strong> ${result.signature_valid ? '✅' : '❌'}</p>`;
+                html += `<p><strong>Chain Valid:</strong> ${result.chain_valid ? '✅' : '❌'}</p>`;
+                html += '<pre>' + JSON.stringify(result.block_data, null, 2) + '</pre>';
+                html += '</div>';
+                
+                resultDiv.innerHTML = html;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

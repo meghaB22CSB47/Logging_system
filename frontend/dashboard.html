@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Cryptographic Log Security</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>🔐 Cryptographic Log Security System</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="verify.html">Verify</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-grid">
+            <div class="dashboard-section">
+                <h2>📊 System Statistics</h2>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <label>Total Blocks:</label>
+                        <span id="totalBlocks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <label>Chain Status:</label>
+                        <span id="chainStatus">✅ VALID</span>
+                    </div>
+                    <div class="stat-item">
+                        <label>Current Epoch:</label>
+                        <span id="currentEpoch">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <label>Authority Nodes:</label>
+                        <span id="authorityNodes">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>📝 Recent Logs</h2>
+                <div id="recentLogs" class="logs-list">
+                    <p>Loading...</p>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>🔑 Forward Security Status</h2>
+                <div id="securityStatus" class="security-info">
+                    <p>Loading...</p>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>⚡ Consensus Performance</h2>
+                <div id="consensusStats" class="consensus-info">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_BASE}/stats`);
+                const data = await response.json();
+                
+                document.getElementById('totalBlocks').textContent = data.total_blocks;
+                document.getElementById('chainStatus').textContent = 
+                    data.chain_valid ? '✅ VALID' : '❌ INVALID';
+                document.getElementById('currentEpoch').textContent = data.current_epoch;
+                document.getElementById('authorityNodes').textContent = data.authority_nodes;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        loadDashboard();
+        setInterval(loadDashboard, 5000);
+    </script>
+</body>
+</html>
